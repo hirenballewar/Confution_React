@@ -1,9 +1,8 @@
-import React, { Component } from 'react';
+import React, {Component} from 'react';
 import { Breadcrumb, BreadcrumbItem,
     Button, Row, Col, Label } from 'reactstrap';
-import { Control, Form, Errors, actions } from 'react-redux-form';
+import { Control, Form, Errors } from 'react-redux-form';
 import { Link } from 'react-router-dom';
-
 
 const required = (val) => val && val.length;
 const maxLength = (len) => (val) => !(val) || (val.length <= len);
@@ -12,26 +11,22 @@ const isNumber = (val) => !isNaN(Number(val));
 const validEmail = (val) => /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(val);
 
 class Contact extends Component {
-
-    constructor(props) {
-        super(props);
+        constructor(props) {
+            super(props);
+    
+            this.handleSubmit = this.handleSubmit.bind(this);
+        }
+    
+        handleSubmit(values) {
+            console.log('Current State is: ' + JSON.stringify(values));
+            alert('Thank you for your Feedback: ' + JSON.stringify(values));
+            this.props.resetFeedbackForm();
+            this.props.postFeedback( values.firstname, values.lastname, values.telnum, values.email, values.agree, values.contactType, values.message);
+        }
 
         
-        this.handleSubmit = this.handleSubmit.bind(this);
-    
-    }
-  
 
-    handleSubmit(values) {
-        console.log('Current State is: ' + JSON.stringify(values));
-        alert('Current State is: ' + JSON.stringify(values));
-        this.props.resetFeedbackForm();
-        // event.preventDefault();
-    }
-
-
-    render(){
-
+        render() {
         return(
             <div className="container">
                 <div className="row">
@@ -71,9 +66,9 @@ class Contact extends Component {
                     </div>
                 </div>
                 <div className="row row-content">
-                    <div className="col-12">
-                        <h3>Send us Your Feedback</h3>
-                    </div>
+                   <div className="col-12">
+                      <h3>Send us your Feedback</h3>
+                   </div>
                     <div className="col-12 col-md-9">
                     <Form model="feedback" onSubmit={(values) => this.handleSubmit(values)}>
                     <Row className="form-group">
@@ -200,11 +195,10 @@ class Contact extends Component {
                             </Row>
                         </Form>
                     </div>
-                </div>
+               </div>
             </div>
         );
     }
-
 }
 
 export default Contact;
